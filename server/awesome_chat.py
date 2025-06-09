@@ -65,8 +65,8 @@ use_completion = config["use_completion"]
 
 # consistent: wrong msra model name 
 LLM_encoding = LLM
-if config["dev"] and LLM == "gpt-3.5-turbo":
-    LLM_encoding = "text-davinci-003"
+# if config["dev"] and LLM == "gpt-3.5-turbo":
+#     LLM_encoding = "text-davinci-003"
 task_parsing_highlight_ids = get_token_ids_for_task_parsing(LLM_encoding)
 choose_model_highlight_ids = get_token_ids_for_choose_model(LLM_encoding)
 
@@ -87,6 +87,8 @@ elif "azure" in config:
     API_TYPE = "azure"
 elif "openai" in config:
     API_TYPE = "openai"
+elif "openroute" in config:
+    API_TYPE = "openroute"    
 else:
     logger.warning(f"No endpoint specified in {args.config}. The endpoint will be set dynamically according to the client.")
 
@@ -108,7 +110,9 @@ elif API_TYPE == "openai":
         API_KEY = os.getenv("OPENAI_API_KEY")
     else:
         raise ValueError(f"Incorrect OpenAI key. Please check your {args.config} file.")
-
+elif API_TYPE == "openroute":
+    API_ENDPOINT = f"{config['openroute']['base_url']}/v1/{api_name}"
+    API_KEY = config["openroute"]["api_key"]
 PROXY = None
 if config["proxy"]:
     PROXY = {
