@@ -111,7 +111,7 @@ elif API_TYPE == "openai":
     else:
         raise ValueError(f"Incorrect OpenAI key. Please check your {args.config} file.")
 elif API_TYPE == "openroute":
-    API_ENDPOINT = f"{config['openroute']['base_url']}/v1/{api_name}"
+    API_ENDPOINT = f"{config['openroute']['base_url']}/v2/{api_name}"
     API_KEY = config["openroute"]["api_key"]
 PROXY = None
 if config["proxy"]:
