@@ -87,8 +87,8 @@ elif "azure" in config:
     API_TYPE = "azure"
 elif "openai" in config:
     API_TYPE = "openai"
-elif "openroute" in config:
-    API_TYPE = "openroute"    
+elif "openrouter" in config:
+    API_TYPE = "openrouter"    
 else:
     logger.warning(f"No endpoint specified in {args.config}. The endpoint will be set dynamically according to the client.")
 
@@ -110,9 +110,9 @@ elif API_TYPE == "openai":
         API_KEY = os.getenv("OPENAI_API_KEY")
     else:
         raise ValueError(f"Incorrect OpenAI key. Please check your {args.config} file.")
-elif API_TYPE == "openroute":
-    API_ENDPOINT = f"{config['openroute']['base_url']}/v2/{api_name}"
-    API_KEY = config["openroute"]["api_key"]
+elif API_TYPE == "openrouter":
+    API_ENDPOINT = f"{config['openrouter']['base_url']}/v1/{api_name}"
+    API_KEY = config["openrouter"]["api_key"]
 PROXY = None
 if config["proxy"]:
     PROXY = {
@@ -196,7 +196,7 @@ def send_request(data):
     api_endpoint = data.pop("api_endpoint")
     if use_completion:
         data = convert_chat_to_completion(data)
-    if api_type == "openai":
+    if api_type == "openai" or api_type == "openrouter":
         HEADER = {
             "Authorization": f"Bearer {api_key}"
         }
@@ -969,7 +969,7 @@ def chat_huggingface(messages, api_key, api_type, api_endpoint, return_planning 
     if return_results:
         return results
     
-    response = response_results(input, results, api_key, api_type, api_endpoint).strip()
+    response = response_results(input, results, api_key, api_type, api_endpoint)
 
     end = time.time()
     during = end - start

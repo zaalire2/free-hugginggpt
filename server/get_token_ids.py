@@ -1,6 +1,7 @@
 import tiktoken
 
 encodings = {
+    "deepseek/deepseek-chat": tiktoken.get_encoding("cl100k_base"), 
     "gpt-4": tiktoken.get_encoding("cl100k_base"),
     "gpt-4-32k": tiktoken.get_encoding("cl100k_base"),
     "gpt-3.5-turbo": tiktoken.get_encoding("cl100k_base"),
@@ -18,6 +19,7 @@ encodings = {
 }
 
 max_length = {
+    "deepseek/deepseek-chat": 40000,
     "gpt-4": 8192,
     "gpt-4-32k": 32768,
     "gpt-3.5-turbo": 4096,
